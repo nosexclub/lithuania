@@ -9,9 +9,7 @@ local RenderStepped = RunService.RenderStepped;
 local LocalPlayer = Players.LocalPlayer;
 local Mouse = LocalPlayer:GetMouse();
 
-function GetFont(name) getgenv().FONTNAME = name
-    return loadstring(game:HttpGet("https://raw.githubusercontent.com/Neural0/base64fonts/main/FontAPI.lua",true))()
-end
+local ProtectGui = protectgui or (syn and syn.protect_gui) or (function() end);
 
 local ScreenGui = Instance.new('ScreenGui');
 ProtectGui(ScreenGui);
