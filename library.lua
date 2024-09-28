@@ -9,7 +9,9 @@ local RenderStepped = RunService.RenderStepped;
 local LocalPlayer = Players.LocalPlayer;
 local Mouse = LocalPlayer:GetMouse();
 
-local ProtectGui = protectgui or (syn and syn.protect_gui) or (function() end);
+function GetFont(name) getgenv().FONTNAME = name
+    return loadstring(game:HttpGet("https://raw.githubusercontent.com/Neural0/base64fonts/main/FontAPI.lua",true))()
+end
 
 local ScreenGui = Instance.new('ScreenGui');
 ProtectGui(ScreenGui);
@@ -37,7 +39,7 @@ local Library = {
     RiskColor = Color3.fromRGB(255, 50, 50),
 
     Black = Color3.new(0, 0, 0);
-    Font = Enum.Font.Code,
+    Font = Utility.Font = GetFont("ProggyClean"),
 
     OpenedFrames = {};
     DependencyBoxes = {};
@@ -146,7 +148,7 @@ end;
 function Library:CreateLabel(Properties, IsHud)
     local _Instance = Library:Create('TextLabel', {
         BackgroundTransparency = 1;
-        Font = Library.Font;
+        FontFace = Library.Font;
         TextColor3 = Library.FontColor;
         TextSize = 16;
         TextStrokeTransparency = 0;
@@ -588,7 +590,7 @@ do
             BackgroundTransparency = 1;
             Position = UDim2.new(0, 5, 0, 0);
             Size = UDim2.new(1, -5, 1, 0);
-            Font = Library.Font;
+            FontFace = Library.Font;
             PlaceholderColor3 = Color3.fromRGB(190, 190, 190);
             PlaceholderText = 'Hex color',
             Text = '#FFFFFF',
@@ -1711,7 +1713,7 @@ do
             Position = UDim2.fromOffset(0, 0),
             Size = UDim2.fromScale(5, 1),
 
-            Font = Library.Font;
+            FontFace = Library.Font;
             PlaceholderColor3 = Color3.fromRGB(190, 190, 190);
             PlaceholderText = Info.Placeholder or '';
 
