@@ -67,8 +67,6 @@ function fontmanager.list()
     end
 end
 
-return fontmanager
-
 local Library = {
     Registry = {};
     RegistryMap = {};
