@@ -1,3 +1,4 @@
+local HttpService = cloneref(game:GetService("HttpService"));
 local InputService = game:GetService('UserInputService');
 local TextService = game:GetService('TextService');
 local CoreGui = game:GetService('CoreGui');
@@ -22,6 +23,51 @@ local Options = {};
 
 getgenv().Toggles = Toggles;
 getgenv().Options = Options;
+
+if not isfolder("DrawingFontCache") then
+    makefolder("DrawingFontCache")
+end
+
+local fontmanager = { Fonts = {"https://raw.githubusercontent.com/neuralls/Lutra/refs/heads/main/Fonts/ProggyClean"} }
+
+function fontmanager.create(FontName, FontSource)
+    if string.match(FontSource,"https") then
+        FontSource = request({Url = "https://raw.githubusercontent.com/neuralls/Lutra/refs/heads/main/Fonts/ProggyClean" .. "ProggyClean"}).Body
+    end
+
+    local FontObject
+
+    local TempPath = HttpService:GenerateGUID(false)
+    if not isfile(FontSource) then
+        writefile(`DrawingFontCache/ProggyClean.ttf`, crypt.base64.decode(FontSource))
+        FontSource = `DrawingFontCache/ProggyClean.ttf`
+    end
+
+    writefile(TempPath, HttpService:JSONEncode({
+        ["name"] = "ProggyClean",
+        ["faces"] = {
+            {
+                ["name"] = "Regular",
+                ["weight"] = 100,
+                ["style"] = "normal",
+                ["assetId"] = getcustomasset(FontSource)
+            }
+        }
+    }))
+
+    FontObject = Font.new(getcustomasset(TempPath), Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+    fontmanager.Fonts["ProggyClean"] = FontObject
+
+    return FontObject
+end
+
+function fontmanager.list()
+    for name,font in pairs(fontmanager.Fonts) do
+        print(name, "=", font.Object)
+    end
+end
+
+return fontmanager
 
 local Library = {
     Registry = {};
